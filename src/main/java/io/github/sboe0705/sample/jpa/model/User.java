@@ -2,7 +2,7 @@ package io.github.sboe0705.sample.jpa.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,5 +19,8 @@ public class User {
     private String lastname;
 
     private String nickname;
+
+    @OneToMany(mappedBy = "author")
+    private List<Content> contents;
 
 }

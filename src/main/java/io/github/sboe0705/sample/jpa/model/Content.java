@@ -18,4 +18,8 @@ public abstract class Content {
     @Column(nullable = false)
     private String text;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private User author;
+
 }
