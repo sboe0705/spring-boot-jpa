@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: JPA Sample
+  jpa:
+    properties:
+      # useful for entity names conflicting with sql keywords e.g. user
+      hibernate.globally_quoted_identifiers: true

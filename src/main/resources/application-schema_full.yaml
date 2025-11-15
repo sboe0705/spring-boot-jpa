@@ -1,0 +1,13 @@
+spring:
+  main:
+    web-application-type: none
+  flyway:
+    enabled: false
+  jpa:
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            scripts:
+              action: create
+              create-target: target/schema_full.sql
