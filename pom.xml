@@ -83,6 +83,27 @@
 
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>validate-schema-migration</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <loadfile property="fileContent" srcFile="${project.build.directory}/schema_update.sql"/>
+                                <fail message="Flyway migration incomplete, see ${project.build.directory}/schema_update.sql!" if="fileContent"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
