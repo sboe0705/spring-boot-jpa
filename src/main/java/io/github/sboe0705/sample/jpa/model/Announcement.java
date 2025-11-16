@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Announcement extends Content{
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private PriorityLevel priority;
 
     private String audience;
