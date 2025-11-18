@@ -1,7 +1,16 @@
 spring:
   application:
     name: JPA Sample
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
   jpa:
     properties:
       # useful for entity names conflicting with sql keywords e.g. user
       hibernate.globally_quoted_identifiers: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
