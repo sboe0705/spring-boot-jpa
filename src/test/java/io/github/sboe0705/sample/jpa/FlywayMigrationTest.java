@@ -1,5 +1,6 @@
 package io.github.sboe0705.sample.jpa;
 
+import io.github.sboe0705.sample.jpa.data.ArticleRepository;
 import io.github.sboe0705.sample.jpa.data.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ class FlywayMigrationTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ArticleRepository articleRepository;
+
     @Test
     void testUserMigration() {
         assertThat(userRepository.count()).isEqualTo(1);
@@ -29,6 +33,19 @@ class FlywayMigrationTest {
                 .hasFieldOrPropertyWithValue("firstname", "Max")
                 .hasFieldOrPropertyWithValue("lastname", "Mustermann")
                 .hasFieldOrPropertyWithValue("nickname", "Maxi");
+    }
+
+    @Test
+    void testArticleMigration() {
+        assertThat(articleRepository.count()).isEqualTo(1);
+        assertThat(articleRepository.findById(1L))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("id", 1L)
+                .hasFieldOrPropertyWithValue("title", "Healthy Breakfast Ideas")
+                .hasFieldOrPropertyWithValue("topic", "Food")
+                .hasFieldOrPropertyWithValue("summary", "Simple meals for busy mornings")
+                .hasFieldOrPropertyWithValue("text", "Nutritionists suggest quick breakfast options like overnight oats, yogurt bowls, and whole-grain wraps to maintain energy throughout the day.");
     }
 
 }
