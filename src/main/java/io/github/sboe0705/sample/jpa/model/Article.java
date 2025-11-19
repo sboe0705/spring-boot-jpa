@@ -7,18 +7,16 @@ import jakarta.persistence.*;
 //@DiscriminatorValue("ARTICLE")
 public class Article extends Content {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    private String text;
-
     private String topic;
 
     private String summary;
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
 
 }

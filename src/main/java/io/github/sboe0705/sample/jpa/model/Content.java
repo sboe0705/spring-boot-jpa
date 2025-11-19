@@ -22,4 +22,16 @@ public abstract class Content {
     @JoinColumn(nullable = false)
     private User author;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
 }
