@@ -96,8 +96,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <loadfile property="fileContent" srcFile="${project.build.directory}/schema_update.sql"/>
-                                <fail message="Flyway migration incomplete, see ${project.build.directory}/schema_update.sql!" if="fileContent"/>
+                                <condition property="files.equal">
+                                    <filesmatch file1="${project.build.directory}/schema_update.sql"
+                                                file2="${project.build.directory}/test-classes/expected_schema_update.sql"/>
+                                </condition>
+                                <fail message="Flyway migration incomplete, see ${project.build.directory}/schema_update.sql!" unless="files.equal"/>
                             </target>
                         </configuration>
                     </execution>

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(name = "unique_fullname", columnNames = {"firstname", "lastname"}))
 public class User {
 
     @Id
@@ -14,6 +14,22 @@ public class User {
 
     @Column(nullable = false)
     private String firstname;
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
     @Column(nullable = false)
     private String lastname;

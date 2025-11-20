@@ -4,13 +4,13 @@ import io.github.sboe0705.sample.jpa.data.AnnouncementRepository;
 import io.github.sboe0705.sample.jpa.data.ArticleRepository;
 import io.github.sboe0705.sample.jpa.data.CommentRepository;
 import io.github.sboe0705.sample.jpa.data.UserRepository;
-import io.github.sboe0705.sample.jpa.model.Announcement;
-import io.github.sboe0705.sample.jpa.model.Article;
-import io.github.sboe0705.sample.jpa.model.Comment;
-import io.github.sboe0705.sample.jpa.model.PriorityLevel;
+import io.github.sboe0705.sample.jpa.model.*;
+import org.assertj.core.api.Assertions;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -77,6 +77,17 @@ class FlywayMigrationTest {
                 .containsExactlyInAnyOrder(
                         tuple(151L, "System Maintenance", "The platform will undergo scheduled maintenance tonight between 02:00 and 03:00 UTC.", PriorityLevel.HIGH, "All users")
                 );
+    }
+
+    @Test
+    void testUniqueUsersFullname() {
+        User unknown = new User();
+        unknown.setFirstname("unknown");
+        unknown.setLastname("unknown");
+        Assertions.assertThatThrownBy(() -> userRepository.save(unknown))
+                .isInstanceOf(DataIntegrityViolationException.class)
+                .hasCauseInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining("unique_fullname");
     }
 
 }
