@@ -36,10 +36,9 @@ class FlywayMigrationTest {
     @Autowired
     private AnnouncementRepository announcementRepository;
 
-
     @Test
     void testUserMigration() {
-        assertThat(userRepository.count()).isEqualTo(1);
+        assertThat(userRepository.count()).isEqualTo(2);
         assertThat(userRepository.findById(1L))
                 .isPresent()
                 .get()
