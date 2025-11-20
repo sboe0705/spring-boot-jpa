@@ -12,4 +12,8 @@ public class Comment extends Content{
     @Column(nullable = false)
     public int likes;
 
+    public int getLikes() {
+        return likes;
+    }
+
 }

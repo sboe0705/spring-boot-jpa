@@ -4,7 +4,9 @@ import io.github.sboe0705.sample.jpa.data.AnnouncementRepository;
 import io.github.sboe0705.sample.jpa.data.ArticleRepository;
 import io.github.sboe0705.sample.jpa.data.CommentRepository;
 import io.github.sboe0705.sample.jpa.data.UserRepository;
+import io.github.sboe0705.sample.jpa.model.Announcement;
 import io.github.sboe0705.sample.jpa.model.Article;
+import io.github.sboe0705.sample.jpa.model.Comment;
 import io.github.sboe0705.sample.jpa.model.PriorityLevel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,36 +53,31 @@ class FlywayMigrationTest {
     void testArticleMigration() {
         assertThat(articleRepository.findAll())
                 .hasSize(2)
-                .extracting(Article::getId, Article::getTitle, Article::getTopic, Article::getSummary, Article::getText)
+                .extracting(Article::getId, Article::getTitle, Article::getText, Article::getTopic, Article::getSummary)
                 .containsExactlyInAnyOrder(
-                        tuple(1L, "Healthy Breakfast Ideas", "Food", "Simple meals for busy mornings", "Nutritionists suggest quick breakfast options like overnight oats, yogurt bowls, and whole-grain wraps to maintain energy throughout the day."),
-                        tuple(51L, "AI in Modern Healthcare", "Technology", "How AI tools assist doctors", "Artificial intelligence is increasingly used to support diagnostics, streamline hospital workflows, and deliver personalized treatments.")
+                        tuple(1L, "Healthy Breakfast Ideas", "Nutritionists suggest quick breakfast options like overnight oats, yogurt bowls, and whole-grain wraps to maintain energy throughout the day.", "Food", "Simple meals for busy mornings"),
+                        tuple(51L, "AI in Modern Healthcare", "Artificial intelligence is increasingly used to support diagnostics, streamline hospital workflows, and deliver personalized treatments.", "Technology", "How AI tools assist doctors")
                 );
     }
 
     @Test
     void testCommentMigration() {
-        assertThat(commentRepository.count()).isEqualTo(1);
-        assertThat(commentRepository.findById(101L))
-                .isPresent()
-                .get()
-                .hasFieldOrPropertyWithValue("id", 101L)
-                .hasFieldOrPropertyWithValue("title", "Great Article!")
-                .hasFieldOrPropertyWithValue("text", "I really enjoyed reading this piece, very insightful and well-written.")
-                .hasFieldOrPropertyWithValue("likes", 100);
+        assertThat(commentRepository.findAll())
+                .hasSize(1)
+                .extracting(Comment::getId, Comment::getTitle, Comment::getText, Comment::getLikes)
+                .containsExactlyInAnyOrder(
+                        tuple(101L, "Great Article!", "I really enjoyed reading this piece, very insightful and well-written.", 100)
+                );
     }
 
     @Test
     void testAnnouncementMigration() {
-        assertThat(announcementRepository.count()).isEqualTo(1);
-        assertThat(announcementRepository.findById(151L))
-                .isPresent()
-                .get()
-                .hasFieldOrPropertyWithValue("id", 151L)
-                .hasFieldOrPropertyWithValue("title", "System Maintenance")
-                .hasFieldOrPropertyWithValue("text", "The platform will undergo scheduled maintenance tonight between 02:00 and 03:00 UTC.")
-                .hasFieldOrPropertyWithValue("priority", PriorityLevel.HIGH)
-                .hasFieldOrPropertyWithValue("audience", "All users");
+        assertThat(announcementRepository.findAll())
+                .hasSize(1)
+                .extracting(Announcement::getId, Announcement::getTitle, Announcement::getText, Announcement::getPriority, Announcement::getAudience)
+                .containsExactlyInAnyOrder(
+                        tuple(151L, "System Maintenance", "The platform will undergo scheduled maintenance tonight between 02:00 and 03:00 UTC.", PriorityLevel.HIGH, "All users")
+                );
     }
 
 }

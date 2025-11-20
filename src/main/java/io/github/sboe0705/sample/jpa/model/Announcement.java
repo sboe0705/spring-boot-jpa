@@ -13,4 +13,12 @@ public class Announcement extends Content{
 
     private String audience;
 
+    public PriorityLevel getPriority() {
+        return priority;
+    }
+
+    public String getAudience() {
+        return audience;
+    }
+
 }
